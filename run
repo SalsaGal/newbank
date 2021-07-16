@@ -3,5 +3,5 @@
 #/
 
 #-
-	cargo run --example object
+	cargo run --example sprite
 #/

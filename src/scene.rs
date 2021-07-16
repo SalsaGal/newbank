@@ -36,16 +36,24 @@ impl Scene {
 		}
 		panic!("Too many objects in scene!");
 	}
+}
 
-	pub(crate) fn update(&mut self, scene_data: &mut SceneData) {
+impl Object for Scene {
+	fn init(&mut self, data: &mut SceneData) {
 		for (_, object) in self.objects.iter_mut() {
-			object.update(scene_data);
+			object.init(data);
 		}
 	}
 
-	pub(crate) fn render(&self, scene_data: &mut SceneData) {
+	fn update(&mut self, data: &mut SceneData) {
+		for (_, object) in self.objects.iter_mut() {
+			object.update(data);
+		}
+	}
+
+	fn render(&self, data: &mut SceneData) {
 		for (_, object) in self.objects.iter() {
-			object.render(scene_data);
+			object.render(data);
 		}
 	}
 }

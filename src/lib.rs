@@ -8,7 +8,7 @@ use crate::graphics::GraphicsHandler;
 use crate::math::UVec2;
 use crate::scene::Scene;
 
-use scene::SceneData;
+use scene::{Object, SceneData};
 use sdl2::event::Event;
 use sdl2::video::WindowBuilder;
 
@@ -36,6 +36,10 @@ impl Game {
 
 		let mut next_render = Instant::now();
 		let mut next_update = Instant::now();
+
+		self.scene.init(&mut SceneData {
+			graphics_handler: &mut graphics_handler,
+		});
 
 		let mut running = true;
 		while running {
