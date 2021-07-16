@@ -12,8 +12,11 @@ pub type TextureID = usize;
 pub struct DrawPos {
 	pub x: i32,
 	pub y: i32,
+	pub angle: f64,
 	pub width: Option<u32>,
 	pub height: Option<u32>,
+	pub horizontal_mirror: bool,
+	pub vertical_mirror: bool,
 }
 
 impl DrawPos {
@@ -23,6 +26,21 @@ impl DrawPos {
 			y,
 			..Default::default()
 		}
+	}
+
+	pub fn rotate(mut self, angle: f64) -> DrawPos {
+		self.angle = angle;
+		self
+	}
+
+	pub fn flip_horizontal(mut self) -> DrawPos {
+		self.horizontal_mirror = !self.horizontal_mirror;
+		self
+	}
+
+	pub fn flip_vertical(mut self) -> DrawPos {
+		self.vertical_mirror = !self.vertical_mirror;
+		self
 	}
 	
 	pub fn size(mut self, width: u32, height: u32) -> DrawPos {
@@ -37,8 +55,11 @@ impl Default for DrawPos {
 		Self {
 			x: 0,
 			y: 0,
+			angle: 0.0,
 			width: None,
 			height: None,
+			horizontal_mirror: false,
+			vertical_mirror: false,
 		}
 	}
 }
@@ -97,10 +118,10 @@ impl GraphicsHandler {
 					None => texture.query().height,
 				},
 			), 
-			0.0,
+			pos.angle,
 			None,
-			false,
-			false
+			pos.horizontal_mirror,
+			pos.vertical_mirror,
 		).unwrap();
 	}
 }

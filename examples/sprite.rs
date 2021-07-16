@@ -21,8 +21,9 @@ impl Object for Texture {
 		data.graphics_handler.draw_texture(0, DrawPos {
 			x: 30,
 			y: 30,
-			width: Some(128),
-			height: None,
+			angle: 45.0,
+			..Default::default()
 		});
+		data.graphics_handler.draw_texture(0, DrawPos::at(300, 50));
 	}
 }
