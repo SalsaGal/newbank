@@ -22,7 +22,7 @@ impl Object for Texture {
 			x: 30,
 			y: 30,
 			width: Some(128),
-			height: Some(64),
+			height: None,
 		});
 	}
 }

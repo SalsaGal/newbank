@@ -80,24 +80,26 @@ impl GraphicsHandler {
 	}
 
 	pub fn draw_texture(&mut self, texture: TextureID, pos: DrawPos) {
+		let texture = self.texture_cache.get(&texture).unwrap();
+
 		self.canvas.copy_ex(
-			self.texture_cache.get(&texture).unwrap(), 
-			None, 
+			texture,
+			None,
 			Rect::new(
 				pos.x,
 				pos.y,
 				match pos.width {
 					Some(width) => width,
-					None => todo!(),
+					None => texture.query().width,
 				},
 				match pos.height {
 					Some(height) => height,
-					None => todo!(),
+					None => texture.query().height,
 				},
 			), 
-			0.0, 
-			None, 
-			false, 
+			0.0,
+			None,
+			false,
 			false
 		).unwrap();
 	}
