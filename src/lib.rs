@@ -23,6 +23,7 @@ impl Game {
 			WindowSize::Fullscreen => window.set_fullscreen(sdl2::video::FullscreenType::Desktop).unwrap(),
 			WindowSize::Windowed(size) => window.set_size(size.x, size.y).unwrap(),
 		}
+		window.set_position(sdl2::video::WindowPos::Centered, sdl2::video::WindowPos::Centered);
 
 		let mut running = true;
 		while running {
