@@ -1,6 +1,8 @@
+pub mod graphics;
 pub mod math;
 pub mod scene;
 
+use crate::graphics::GraphicsHandler;
 use crate::math::UVec2;
 use crate::scene::Scene;
 
@@ -25,6 +27,8 @@ impl Game {
 		}
 		window.set_position(sdl2::video::WindowPos::Centered, sdl2::video::WindowPos::Centered);
 
+		let mut graphics_handler = GraphicsHandler::new(window);
+
 		let mut running = true;
 		while running {
 			for event in sdl_event.poll_iter() {
@@ -37,6 +41,8 @@ impl Game {
 
 				self.scene.update();
 				self.scene.render();
+
+				graphics_handler.update();
 			}
 		}
 	}
