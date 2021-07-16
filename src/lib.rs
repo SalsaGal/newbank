@@ -1,7 +1,10 @@
+use glam::UVec2;
+
 use sdl2::event::Event;
 use sdl2::video::WindowBuilder;
 
 pub struct Game {
+	pub window_size: WindowSize,
 }
 
 impl Game {
@@ -10,7 +13,11 @@ impl Game {
 		let sdl_video = sdl.video().unwrap();
 		let mut sdl_event = sdl.event_pump().unwrap();
 
-		let _window = WindowBuilder::new(&sdl_video, "Newbank", 640, 480).build().unwrap();
+		let mut window = WindowBuilder::new(&sdl_video, "Newbank", 0, 0).build().unwrap();
+		match self.window_size {
+			WindowSize::Fullscreen => window.set_fullscreen(sdl2::video::FullscreenType::Desktop).unwrap(),
+			WindowSize::Windowed(size) => window.set_size(size.x, size.y).unwrap(),
+		}
 
 		let mut running = true;
 		while running {
@@ -29,6 +36,12 @@ impl Game {
 impl Default for Game {
 	fn default() -> Self {
 		Self {
+			window_size: WindowSize::Fullscreen,
 		}
 	}
+}
+
+pub enum WindowSize {
+	Fullscreen,
+	Windowed(UVec2),
 }
