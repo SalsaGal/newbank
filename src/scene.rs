@@ -34,7 +34,7 @@ impl Scene {
 				return index;
 			}
 		}
-		panic!("Too many objects in Scene");
+		panic!("Too many objects in scene!");
 	}
 
 	pub(crate) fn update(&mut self, scene_data: &mut SceneData) {
@@ -63,6 +63,7 @@ pub struct SceneData<'data> {
 }
 
 pub trait Object {
+	fn init(&mut self, _: &mut SceneData) {}
 	fn update(&mut self, _: &mut SceneData) {}
 	fn render(&self, _: &mut SceneData) {}
 }
