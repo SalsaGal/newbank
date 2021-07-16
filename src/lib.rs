@@ -2,6 +2,8 @@ pub mod graphics;
 pub mod math;
 pub mod scene;
 
+use std::time::{Duration, Instant};
+
 use crate::graphics::GraphicsHandler;
 use crate::math::UVec2;
 use crate::scene::Scene;
@@ -13,6 +15,8 @@ use sdl2::video::WindowBuilder;
 pub struct Game {
 	pub scene: Scene,
 	pub window_size: WindowSize,
+	pub render_framelength: Duration,
+	pub update_framelength: Duration,
 }
 
 impl Game {
@@ -30,6 +34,9 @@ impl Game {
 
 		let mut graphics_handler = GraphicsHandler::new(window);
 
+		let mut next_render = Instant::now();
+		let mut next_update = Instant::now();
+
 		let mut running = true;
 		while running {
 			for event in sdl_event.poll_iter() {
@@ -39,15 +46,21 @@ impl Game {
 					},
 					_ => {},
 				}
+			}
 
-				let mut scene_data = SceneData {
-					graphics_handler: &mut graphics_handler,
-				};
+			let mut scene_data = SceneData {
+				graphics_handler: &mut graphics_handler,
+			};
 
+			if Instant::now().checked_duration_since(next_update).is_some() {
 				self.scene.update(&mut scene_data);
-				self.scene.render(&mut scene_data);
+				next_update = Instant::now() + self.update_framelength;
+			}
 
+			if Instant::now().checked_duration_since(next_render).is_some() {
+				self.scene.render(&mut scene_data);
 				graphics_handler.update();
+				next_render = Instant::now() + self.render_framelength;
 			}
 		}
 	}
@@ -58,6 +71,8 @@ impl Default for Game {
 		Self {
 			scene: Scene::default(),
 			window_size: WindowSize::Fullscreen,
+			render_framelength: Duration::from_millis(1000 / 60),
+			update_framelength: Duration::from_millis(1000 / 30),
 		}
 	}
 }

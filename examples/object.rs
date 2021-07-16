@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use newbank::graphics::Color;
 use newbank::{Game, WindowSize};
 use newbank::scene::{Object, Scene, SceneData};
@@ -7,6 +9,7 @@ fn main() {
 	Game {
 		scene: Scene::new().with_objects(vec![Box::new(Foo), Box::new(Foo), Box::new(Bar)]),
 		window_size: WindowSize::Windowed(UVec2::new(640, 480)),
+		update_framelength: Duration::from_millis(1000 / 2),
 		..Default::default()
 	}.run();
 }
