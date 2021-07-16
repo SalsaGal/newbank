@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use crate::graphics::GraphicsHandler;
+
 pub type ObjectID = usize;
 
 pub struct Scene {
@@ -35,15 +37,15 @@ impl Scene {
 		panic!("Too many objects in Scene");
 	}
 
-	pub(crate) fn update(&mut self) {
+	pub(crate) fn update(&mut self, scene_data: &mut SceneData) {
 		for (_, object) in self.objects.iter_mut() {
-			object.update();
+			object.update(scene_data);
 		}
 	}
 
-	pub(crate) fn render(&self) {
+	pub(crate) fn render(&self, scene_data: &mut SceneData) {
 		for (_, object) in self.objects.iter() {
-			object.render();
+			object.render(scene_data);
 		}
 	}
 }
@@ -56,9 +58,13 @@ impl Default for Scene {
 	}
 }
 
+pub struct SceneData<'data> {
+	pub graphics_handler: &'data mut GraphicsHandler,
+}
+
 pub trait Object {
-	fn update(&mut self) {}
-	fn render(&self) {}
+	fn update(&mut self, _: &mut SceneData) {}
+	fn render(&self, _: &mut SceneData) {}
 }
 
 pub struct EmptyObject;

@@ -1,8 +1,10 @@
+pub use sdl2::pixels::Color;
+
 use sdl2::render::WindowCanvas;
 use sdl2::video::Window;
 
 pub struct GraphicsHandler {
-	canvas: WindowCanvas,
+	pub canvas: WindowCanvas,
 }
 
 impl GraphicsHandler {
@@ -16,6 +18,7 @@ impl GraphicsHandler {
 
 	pub(crate) fn update(&mut self) {
 		self.canvas.present();
+		self.canvas.set_draw_color(Color::BLACK);
 		self.canvas.clear();
 	}
 }

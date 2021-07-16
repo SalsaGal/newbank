@@ -1,6 +1,7 @@
+use newbank::graphics::Color;
 use newbank::{Game, WindowSize};
-use newbank::scene::{Object, Scene};
-use newbank::math::UVec2;
+use newbank::scene::{Object, Scene, SceneData};
+use newbank::math::{Rect, UVec2};
 
 fn main() {
 	Game {
@@ -12,14 +13,15 @@ fn main() {
 
 struct Foo;
 impl Object for Foo {
-	fn update(&mut self) {
-		println!("Foo");
+	fn update(&mut self, _: &mut SceneData) {
+		println!("Update");
 	}
 }
 
 struct Bar;
 impl Object for Bar {
-	fn update(&mut self) {
-		println!("Bar");
+	fn render(&self, data: &mut SceneData) {
+		data.graphics_handler.canvas.set_draw_color(Color::RED);
+		data.graphics_handler.canvas.fill_rect(Rect::new(10, 32, 300, 250)).unwrap();
 	}
 }

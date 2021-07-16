@@ -6,6 +6,7 @@ use crate::graphics::GraphicsHandler;
 use crate::math::UVec2;
 use crate::scene::Scene;
 
+use scene::SceneData;
 use sdl2::event::Event;
 use sdl2::video::WindowBuilder;
 
@@ -39,8 +40,12 @@ impl Game {
 					_ => {},
 				}
 
-				self.scene.update();
-				self.scene.render();
+				let mut scene_data = SceneData {
+					graphics_handler: &mut graphics_handler,
+				};
+
+				self.scene.update(&mut scene_data);
+				self.scene.render(&mut scene_data);
 
 				graphics_handler.update();
 			}
