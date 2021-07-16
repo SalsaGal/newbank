@@ -3,5 +3,5 @@
 #/
 
 #-
-	cargo run --example rect
+	cargo run --example object
 #/
